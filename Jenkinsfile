@@ -3,20 +3,25 @@ pipeline {
    
     stages {
 
-       stage('Run Selenium Tests with pytest') {
-    steps {
-        echo "Running Selenium Tests using pytest"
+        stage('Run Selenium Tests with pytest') {
+            steps {
+                    echo "Running Selenium Tests using pytest"
 
-        script {
-            def pythonExe = 'C:\\Users\\Tanzila\\AppData\\Local\\Programs\\Python\\Python310\\python.exe'
-            bat "\"${pythonExe}\" -m pip install -r requirements.txt"
+                    // Install Python dependencies
+                    bat 'pip install -r requirements.txt'
+
+                    //  Start Flask app in background
+                    bat 'start /B python app.py'
+
+                    // Wait a few seconds for the server to start
+                    bat 'ping 127.0.0.1 -n 5 > nul'
+
+                    // Run tests using pytest
+                    
+                    bat 'python -m pytest -v'
+            }
         }
 
-        bat 'start /B python app.py'
-        bat 'ping 127.0.0.1 -n 5 > nul'
-        bat 'python -m pytest -v'
-    }
-}
         stage('Build Docker Image') {
             steps {
                 echo "Build Docker Image"

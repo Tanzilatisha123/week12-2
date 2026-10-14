@@ -9,15 +9,24 @@ pipeline {
             }
         }
 
-        stage('Run Selenium Tests with pytest') {
-            steps {
-                echo "Running Selenium Tests using pytest"
-                bat 'python -m pip install -r requirements.txt'
-                bat 'start /B python app.py'
-                bat 'timeout /t 5 >nul'
-                bat 'python -m pytest -v'
-            }
-        }
+      stage('Run Selenium Tests with pytest') {
+    steps {
+        echo "Running Selenium Tests using pytest"
+
+        // Install Python dependencies
+        bat '"C:\\Users\\Tanzila\\AppData\\Local\\Programs\\Python\\Python310\\python.exe" -m pip install -r requirements.txt'
+
+        // Start Flask app in background
+        bat 'start /B "C:\\Users\\Tanzila\\AppData\\Local\\Programs\\Python\\Python310\\python.exe" app.py'
+
+        // Wait a few seconds for the server to start
+        bat 'timeout /t 5 >nul'
+
+        // Run tests using pytest
+        bat '"C:\\Users\\Tanzila\\AppData\\Local\\Programs\\Python\\Python310\\python.exe" -m pytest -v'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {

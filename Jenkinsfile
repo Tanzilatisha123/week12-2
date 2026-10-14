@@ -1,14 +1,6 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Check Python Environment') {
-            steps {
-                bat 'python --version'
-                bat 'python -m pip --version'
-            }
-        }
-
       stage('Run Selenium Tests with pytest') {
     steps {
         echo "Running Selenium Tests using pytest"
